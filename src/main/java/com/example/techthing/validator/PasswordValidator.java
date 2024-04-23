@@ -17,7 +17,6 @@ public class PasswordValidator implements ConstraintValidator<PasswordConstrain,
 
     @Override
     public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
-        //customizing validation messages
         Properties props = new Properties();
         InputStream inputStream = getClass()
                 .getClassLoader().getResourceAsStream("passay.properties");

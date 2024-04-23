@@ -48,13 +48,13 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
         var user = userRepository.findByUsername(authenticationRequest.getUsername())
-                .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
+                .orElseThrow(() -> new MyException(ErrorCode.PASSWORD_OR_USERNAME_INCORRECT));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean authenticated = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword());
 
         if (!authenticated) {
-            throw new MyException(ErrorCode.UNAUTHENTICATED);
+            throw new MyException(ErrorCode.PASSWORD_OR_USERNAME_INCORRECT);
         }
 
         var token = generateToken(user);

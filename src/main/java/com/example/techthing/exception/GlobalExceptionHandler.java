@@ -67,7 +67,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(
                 ApiResponse.builder()
                         .code(400)
-                        .message(ErrorCode.INVALID_PASS.getMessage())
+                        .message(ErrorCode.INVALID.getMessage())
                         .result(errors)
                         .build());
     }

@@ -1,7 +1,10 @@
 package com.example.techthing.configruation;
 
+import com.example.techthing.entity.Role;
 import com.example.techthing.entity.User;
 import com.example.techthing.enums.Roles;
+import com.example.techthing.exception.MyException;
+import com.example.techthing.repository.RoleRepository;
 import com.example.techthing.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,21 +22,39 @@ import java.util.HashSet;
 public class ApplicationInitConfig {
 
     PasswordEncoder passwordEncoder;
+    RoleRepository roleRepository;
 
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository) {
         return args -> {
-            if (userRepository.findByUsername("admin").isEmpty()) {
-                var roles = new HashSet<String>();
-                roles.add(Roles.ADMIN.name());
+            if (roleRepository.findById("ADMIN").isEmpty()) {
+                Role role = Role.builder()
+                        .name("ADMIN")
+                        .description("Role Admin")
+                        .build();
+                roleRepository.save(role);
+            }
 
+            if (roleRepository.findById("USER").isEmpty()) {
+                Role role = Role.builder()
+                        .name("USER")
+                        .description("Role User")
+                        .build();
+                roleRepository.save(role);
+            }
+
+            if (userRepository.findByUsername("admin").isEmpty()) {
+                HashSet<Role> roles = new HashSet<>();
+                roles.add(roleRepository.findById(Roles.ADMIN.name()).orElseThrow());
                 User admin = User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("admin"))
+                        .roles(roles)
                         .build();
 
                 userRepository.save(admin);
             }
+
         };
     }
 }

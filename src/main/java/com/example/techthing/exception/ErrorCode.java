@@ -1,10 +1,14 @@
 package com.example.techthing.exception;
 
+import org.springframework.http.HttpStatus;
+
 public enum ErrorCode {
     USER_EXISTED(400, "User existed"),
     USER_NOT_EXISTED(400, "User not existed"),
-    PASSWORD_INCORRECT(400, "Password incorrect"),
+    PASSWORD_NOT_MATCH(400, "Password not match"),
+    PASSWORD_OR_USERNAME_INCORRECT(HttpStatus.BAD_REQUEST.value(), "Username or Password Incorrect"),
     INVALID_PASS(400, "Invalid Password"),
+    INVALID(400, "Invalid Parameter"),
     UNAUTHENTICATED(400, "Unauthenticated"),
     MISSING_UPPERCASE(400, "Password must contain 1 or more uppercase characters."),
     MISSING_LOWERCASE(400, "Password must contain 1 or more lowercase characters."),

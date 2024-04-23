@@ -1,21 +1,16 @@
 package com.example.techthing.dto.request;
 
 import com.example.techthing.validator.EmailConstrain;
-import com.example.techthing.validator.PasswordConstrain;
 import com.example.techthing.validator.PhoneNumberConstrain;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCreateRequest {
-    String username;
-    @PasswordConstrain
-    String password;
+public class UpdateBioRequest { ;
     String fullname;
     @EmailConstrain
     String mail;

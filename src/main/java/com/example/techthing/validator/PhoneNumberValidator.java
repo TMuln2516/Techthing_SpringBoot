@@ -3,9 +3,9 @@ package com.example.techthing.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class EmailValidator implements ConstraintValidator<EmailConstrain, String> {
+public class PhoneNumberValidator implements ConstraintValidator<PhoneNumberConstrain, String> {
     @Override
-    public void initialize(EmailConstrain constraintAnnotation) {
+    public void initialize(PhoneNumberConstrain constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
@@ -14,6 +14,7 @@ public class EmailValidator implements ConstraintValidator<EmailConstrain, Strin
         if (s == null) {
             return false;
         }
-        return s.matches("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}");
+        return s.matches("(\\+84|0)[0-9]{9}");
     }
 }
+
