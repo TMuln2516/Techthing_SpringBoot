@@ -1,8 +1,12 @@
 package com.example.techthing.dto.request;
 
-import com.example.techthing.validator.EmailConstrain;
 import com.example.techthing.validator.PasswordConstrain;
-import lombok.*;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Data
@@ -10,11 +14,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ChangePasswordRequest {
-    @EmailConstrain
-    String mail;
+public class CheckPasswordRequest {
+    String token;
     @PasswordConstrain
     String password;
-    String password_confirm;
-    Integer otp;
 }

@@ -2,8 +2,6 @@ package com.example.techthing.configruation;
 
 import com.example.techthing.entity.Role;
 import com.example.techthing.entity.User;
-import com.example.techthing.enums.Roles;
-import com.example.techthing.exception.MyException;
 import com.example.techthing.repository.RoleRepository;
 import com.example.techthing.repository.UserRepository;
 import lombok.AccessLevel;
@@ -13,7 +11,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.HashSet;
 
 @Configuration
@@ -45,11 +42,12 @@ public class ApplicationInitConfig {
 
             if (userRepository.findByUsername("admin").isEmpty()) {
                 HashSet<Role> roles = new HashSet<>();
-                roles.add(roleRepository.findById(Roles.ADMIN.name()).orElseThrow());
+                roles.add(roleRepository.findById("ADMIN").orElseThrow());
                 User admin = User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("admin"))
                         .roles(roles)
+                        .addresses(null)
                         .build();
 
                 userRepository.save(admin);

@@ -25,4 +25,8 @@ public class User {
 
     @ManyToMany
     Set<Role> roles;
+
+    @ManyToMany
+    Set<Address> addresses;
+
 }

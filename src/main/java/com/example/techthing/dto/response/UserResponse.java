@@ -1,10 +1,11 @@
 package com.example.techthing.dto.response;
 
-import com.example.techthing.entity.Role;
+import java.util.Set;
+
+import com.example.techthing.entity.Address;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
 
 @Data
 @Builder
@@ -17,4 +18,5 @@ public class UserResponse {
     String fullname;
     String mail;
     String phone;
+    Set<Address> addresses;
 }

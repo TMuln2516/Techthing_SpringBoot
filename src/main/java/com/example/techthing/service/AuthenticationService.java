@@ -21,7 +21,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -95,8 +94,7 @@ public class AuthenticationService {
         var username = signedJWT.getJWTClaimsSet().getSubject();
 
         var user = userRepository.findByUsername(username).orElseThrow(
-                () -> new MyException(ErrorCode.UNAUTHENTICATED)
-        );
+                () -> new MyException(ErrorCode.UNAUTHENTICATED));
 
         var token = generateToken(user);
 
@@ -118,7 +116,6 @@ public class AuthenticationService {
         if (!(verified && expiryTime.after(new Date())))
             throw new MyException(ErrorCode.UNAUTHENTICATED);
 
-
         if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
             throw new MyException(ErrorCode.UNAUTHENTICATED);
 
@@ -126,28 +123,27 @@ public class AuthenticationService {
     }
 
     private String generateToken(User user) {
-//        Create Header
+        // Create Header
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
-//        Create Payload
-//        Create Claims => Data in Payload
+        // Create Payload
+        // Create Claims => Data in Payload
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())
-//                Domain name
+                // Domain name
                 .issuer("localhost:8080")
                 .issueTime(new Date())
                 .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
-                ))
+                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
                 .jwtID(UUID.randomUUID().toString())
                 .claim("scope", buildScope(user))
                 .build();
-//        Create Payload
+        // Create Payload
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
 
-//        Create Token (header, payload)
+        // Create Token (header, payload)
         JWSObject jwsObject = new JWSObject(header, payload);
 
-//        SIGN token
+        // SIGN token
         try {
             jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
             return jwsObject.serialize();
