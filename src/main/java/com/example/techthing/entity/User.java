@@ -29,7 +29,10 @@ public class User {
                     @JoinColumn(name = "role_id", referencedColumnName = "name") })
     Set<Role> roles;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_address", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "address_id", referencedColumnName = "id") })
     Set<Address> addresses;
 
 }
