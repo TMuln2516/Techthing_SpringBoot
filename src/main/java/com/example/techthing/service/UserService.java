@@ -1,15 +1,25 @@
 package com.example.techthing.service;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.example.techthing.dto.request.ChangePassRequest;
-import com.example.techthing.dto.request.ChangePasswordRequest;
 import com.example.techthing.dto.request.CheckPasswordRequest;
 import com.example.techthing.dto.request.UpdateBioRequest;
 import com.example.techthing.dto.request.UserCreateRequest;
 import com.example.techthing.dto.response.ChangePasswordResponse;
 import com.example.techthing.dto.response.UserResponse;
-import com.example.techthing.entity.User;
 import com.example.techthing.entity.Address;
 import com.example.techthing.entity.Role;
+import com.example.techthing.entity.User;
 import com.example.techthing.enums.Roles;
 import com.example.techthing.exception.ErrorCode;
 import com.example.techthing.exception.MyException;
@@ -20,19 +30,6 @@ import com.nimbusds.jwt.SignedJWT;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
