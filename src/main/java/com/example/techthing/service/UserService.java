@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.techthing.dto.request.ChangePassRequest;
 import com.example.techthing.dto.request.CheckPasswordRequest;
+import com.example.techthing.dto.request.UpdateAddressRequest;
 import com.example.techthing.dto.request.UpdateBioRequest;
 import com.example.techthing.dto.request.UserCreateRequest;
 import com.example.techthing.dto.response.ChangePasswordResponse;
 import com.example.techthing.dto.response.UserResponse;
-import com.example.techthing.entity.Address;
 import com.example.techthing.entity.Role;
 import com.example.techthing.entity.User;
 import com.example.techthing.enums.Roles;
@@ -56,12 +56,11 @@ public class UserService {
         newUser.setMail(userCreateRequest.getMail());
         newUser.setPhone(userCreateRequest.getPhone());
         newUser.setPassword(passwordEncoder.encode(userCreateRequest.getPassword()));
+        newUser.setAddress("");
 
         HashSet<Role> roles = new HashSet<>();
         roles.add(roleRepository.findById(Roles.USER.name()).orElseThrow());
         newUser.setRoles(roles);
-        HashSet<Address> addresses = new HashSet<>();
-        newUser.setAddresses(addresses);
 
         userRepository.save(newUser);
 
@@ -71,6 +70,7 @@ public class UserService {
         userResponse.setFullname(newUser.getFullname());
         userResponse.setMail(newUser.getMail());
         userResponse.setPhone(newUser.getPhone());
+        userResponse.setAddress(newUser.getAddress());
 
         return userResponse;
     }
@@ -87,7 +87,7 @@ public class UserService {
                     .fullname(user.getFullname())
                     .mail(user.getMail())
                     .phone(user.getPhone())
-                    .addresses(user.getAddresses())
+                    .address(user.getAddress())
                     .build();
             userResponses.add(newUserResponse);
         }
@@ -115,6 +115,27 @@ public class UserService {
                 .username(user.getUsername())
                 .mail(user.getMail())
                 .phone(user.getPhone())
+                .address(user.getAddress())
+                .build();
+    }
+
+    @PostAuthorize("returnObject.username == authentication.name")
+    public UserResponse updateAddress(UpdateAddressRequest updateAddressRequest) throws ParseException {
+        SignedJWT signedJWT = SignedJWT.parse(updateAddressRequest.getToken());
+        String username = signedJWT.getJWTClaimsSet().getSubject();
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
+        user.setAddress(updateAddressRequest.getNumber());
+        userRepository.save(user);
+
+        return UserResponse.builder()
+                .id(user.getId())
+                .fullname(user.getFullname())
+                .username(user.getUsername())
+                .mail(user.getMail())
+                .phone(user.getPhone())
+                .address(user.getAddress())
                 .build();
     }
 

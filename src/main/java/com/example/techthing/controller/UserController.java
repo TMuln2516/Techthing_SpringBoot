@@ -2,6 +2,7 @@ package com.example.techthing.controller;
 
 import com.example.techthing.dto.request.ChangePassRequest;
 import com.example.techthing.dto.request.CheckPasswordRequest;
+import com.example.techthing.dto.request.UpdateAddressRequest;
 import com.example.techthing.dto.request.UpdateBioRequest;
 import com.example.techthing.dto.request.UserCreateRequest;
 import com.example.techthing.dto.response.ApiResponse;
@@ -60,6 +61,14 @@ public class UserController {
                         @RequestBody @Valid UpdateBioRequest updateBioRequest) {
                 return ApiResponse.<UserResponse>builder()
                                 .result(userService.updateBio(id, updateBioRequest))
+                                .build();
+        }
+
+        @PutMapping("/update/address")
+        ApiResponse<UserResponse> updateAddress(@RequestBody UpdateAddressRequest updateAddressRequest)
+                        throws ParseException {
+                return ApiResponse.<UserResponse>builder()
+                                .result(userService.updateAddress(updateAddressRequest))
                                 .build();
         }
 }
