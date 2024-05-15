@@ -1,9 +1,10 @@
 package com.example.techthing.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -16,4 +17,8 @@ public class Role {
     @Id
     String name;
     String description;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+    Set<User> users;
+
 }
