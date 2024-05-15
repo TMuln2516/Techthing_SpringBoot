@@ -28,4 +28,8 @@ public class User {
             @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "role_id", referencedColumnName = "name") })
     Set<Role> roles;
+
+    @ManyToMany
+    Set<Address> addresses;
+
 }

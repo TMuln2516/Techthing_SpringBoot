@@ -1,6 +1,8 @@
 package com.example.techthing.configruation;
 
 import com.example.techthing.dto.request.IntrospectRequest;
+import com.example.techthing.exception.ErrorCode;
+import com.example.techthing.exception.MyException;
 import com.example.techthing.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,6 @@ import java.text.ParseException;
 import java.util.Objects;
 
 @Component
-
 public class CustomJWTDecoder implements JwtDecoder {
 
     @Value("${myapp.signer-key}")
@@ -37,7 +38,7 @@ public class CustomJWTDecoder implements JwtDecoder {
                     .build());
 
             if (!response.isValid())
-                throw new JwtException("Token Invalid");
+                throw new MyException(ErrorCode.TOKEN_INVALID);
         } catch (JOSEException | ParseException e) {
             throw new JwtException(e.getMessage());
         }

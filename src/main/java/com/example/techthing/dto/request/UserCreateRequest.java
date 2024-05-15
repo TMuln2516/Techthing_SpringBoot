@@ -3,7 +3,6 @@ package com.example.techthing.dto.request;
 import com.example.techthing.validator.EmailConstrain;
 import com.example.techthing.validator.PasswordConstrain;
 import com.example.techthing.validator.PhoneNumberConstrain;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
