@@ -23,7 +23,10 @@ public class User {
     String mail;
     String phone;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "role_id", referencedColumnName = "name") })
     Set<Role> roles;
 
     @ManyToMany

@@ -14,6 +14,7 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @SuppressWarnings("rawtypes")
     @ExceptionHandler(value = RuntimeException.class)
     ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception) {
         ApiResponse apiResponse = new ApiResponse();
@@ -24,6 +25,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
+    @SuppressWarnings("rawtypes")
     @ExceptionHandler(value = MyException.class)
     ResponseEntity<ApiResponse<AuthenticationResponse>> handlingMyException(MyException exception) {
         ErrorCode errorCode = exception.getErrorCode();
@@ -39,6 +41,7 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
+    @SuppressWarnings("rawtypes")
     @ExceptionHandler(value = AccessDeniedException.class)
     ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException exception) {
         ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
@@ -50,6 +53,7 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
+    @SuppressWarnings("rawtypes")
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse> handlingMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new HashMap<>();
