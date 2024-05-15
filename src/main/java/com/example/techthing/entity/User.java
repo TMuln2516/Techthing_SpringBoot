@@ -37,4 +37,7 @@ public class User {
 
         @OneToMany(mappedBy = "user")
         Set<Invoice> invoices;
+
+        @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = false)
+        Cart cart;
 }
