@@ -19,11 +19,13 @@ import com.example.techthing.dto.request.UpdateBioRequest;
 import com.example.techthing.dto.request.UserCreateRequest;
 import com.example.techthing.dto.response.ChangePasswordResponse;
 import com.example.techthing.dto.response.UserResponse;
+import com.example.techthing.entity.Cart;
 import com.example.techthing.entity.Role;
 import com.example.techthing.entity.User;
 import com.example.techthing.enums.Roles;
 import com.example.techthing.exception.ErrorCode;
 import com.example.techthing.exception.MyException;
+import com.example.techthing.repository.CartRepository;
 import com.example.techthing.repository.RoleRepository;
 import com.example.techthing.repository.UserRepository;
 import com.nimbusds.jwt.SignedJWT;
@@ -38,6 +40,8 @@ import lombok.experimental.FieldDefaults;
 public class UserService {
     UserRepository userRepository;
     RoleRepository roleRepository;
+    CartRepository cartRepository;
+
     PasswordEncoder passwordEncoder;
 
     public UserResponse createUser(UserCreateRequest userCreateRequest) {
@@ -64,6 +68,10 @@ public class UserService {
         newUser.setRoles(roles);
 
         userRepository.save(newUser);
+
+        Cart cart = new Cart();
+        cart.setUser(newUser);
+        cartRepository.save(cart);
 
         UserResponse userResponse = new UserResponse();
         userResponse.setId(newUser.getId());
