@@ -38,4 +38,9 @@ public class User {
 
         @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
         Cart cart;
+
+        @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+        ForgotPassword forgotPassword;
 }
+
+// shift alt o : remove import bị thừa
