@@ -35,12 +35,11 @@ public class CategoryService {
 
         this.categoryRepo.save(newCategory);
 
-        CategoryResponse categoryResponse = new CategoryResponse();
-        categoryResponse.setId(newCategory.getId());
-        categoryResponse.setName(newCategory.getName());
-        categoryResponse.setDescription(newCategory.getDescription());
-
-        return categoryResponse;
+        return CategoryResponse.builder()
+                .id(newCategory.getId())
+                .name(newCategory.getName())
+                .description(newCategory.getDescription())
+                .build();
     }
 
     // get all

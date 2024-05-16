@@ -1,6 +1,7 @@
 package com.example.techthing.exception;
 
 public enum ErrorCode {
+    PRODUCT_EXISTED(400, "Product existed"),
     CATEGORY_EXISTED(400, "Category existed"),
     CATEGORY_NOT_EXISTED(400, "Category not existed"),
     USER_EXISTED(400, "User existed"),

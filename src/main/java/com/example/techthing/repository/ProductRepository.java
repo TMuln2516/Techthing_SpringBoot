@@ -7,5 +7,5 @@ import com.example.techthing.entity.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, String> {
-
+    boolean existsByName(String name);
 }
