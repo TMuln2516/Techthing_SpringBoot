@@ -24,12 +24,22 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     final String[] PUBLIC_ENDPOINTS = {
+            // user
             "user/add",
+            // auth
             "auth/login",
             "auth/introspect",
             "auth/logout",
             "auth/refresh",
+            // password
             "forgotPassword/**",
+            // category
+
+    };
+    final String[] PUBLIC_GET_ENDPOINTS = {
+            // category
+            "categories",
+
     };
 
     CustomJWTDecoder customJWTDecoder;
@@ -38,7 +48,9 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
-                .authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.PUT, PUBLIC_ENDPOINTS).permitAll()
                         .anyRequest().authenticated());
 
