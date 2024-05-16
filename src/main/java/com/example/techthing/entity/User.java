@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Getter
 @Setter
@@ -28,6 +30,7 @@ public class User {
         @JoinTable(name = "user_role", joinColumns = {
                         @JoinColumn(name = "user_id") }, inverseJoinColumns = {
                                         @JoinColumn(name = "role_id") })
+        @JsonManagedReference
         Set<Role> roles;
 
         @OneToMany(mappedBy = "user")

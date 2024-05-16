@@ -15,8 +15,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChangePassRequest {
-    String token;
-
     @PasswordConstrain
     String new_password;
 

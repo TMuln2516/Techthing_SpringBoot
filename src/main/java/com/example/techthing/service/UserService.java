@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -96,13 +97,16 @@ public class UserService {
     }
 
     @PostAuthorize("returnObject.username == authentication.name")
-    public User getUser(String id) {
-        return userRepository.findById(id).orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
+    public User getUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByUsername(username).orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
     }
 
     @PostAuthorize("returnObject.username == authentication.name")
-    public UserResponse updateBio(String id, UpdateBioRequest updateBioRequest) {
-        User user = userRepository.findById(id).orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
+    public UserResponse updateBio(UpdateBioRequest updateBioRequest) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
 
         user.setFullname(updateBioRequest.getFullname());
         user.setMail(updateBioRequest.getMail());
@@ -124,6 +128,11 @@ public class UserService {
         SignedJWT signedJWT = SignedJWT.parse(updateAddressRequest.getToken());
         String username = signedJWT.getJWTClaimsSet().getSubject();
 
+        String authenUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!username.equals(authenUser)) {
+            throw new MyException(ErrorCode.UNAUTHORIZED);
+        }
+
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
         user.setAddress(updateAddressRequest.getNumber());
@@ -141,11 +150,9 @@ public class UserService {
 
     @PreAuthorize("hasRole('USER')")
     public boolean checkPassword(CheckPasswordRequest checkPasswordRequest) throws ParseException {
-        // Lấy username từ tolen
-        SignedJWT signedJWT = SignedJWT.parse(checkPasswordRequest.getToken());
-        String username = signedJWT.getJWTClaimsSet().getSubject();
+        String autheUser = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsername(autheUser)
                 .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
 
         return passwordEncoder.matches(checkPasswordRequest.getPassword(), user.getPassword());
@@ -157,10 +164,9 @@ public class UserService {
             throw new MyException(ErrorCode.PASSWORD_NOT_MATCH);
         }
 
-        SignedJWT signedJWT = SignedJWT.parse(changePassRequest.getToken());
-        String username = signedJWT.getJWTClaimsSet().getSubject();
+        String autheUser = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsername(autheUser)
                 .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
         user.setPassword(passwordEncoder.encode(changePassRequest.getNew_password()));
         userRepository.save(user);
