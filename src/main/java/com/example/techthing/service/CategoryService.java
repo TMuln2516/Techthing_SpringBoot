@@ -2,14 +2,12 @@ package com.example.techthing.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.example.techthing.dto.request.CreateCategoryRequest;
 import com.example.techthing.dto.request.UpdateCategoryRequest;
 import com.example.techthing.dto.response.CategoryResponse;
-import com.example.techthing.dto.response.DeleteResponse;
 import com.example.techthing.entity.Category;
 import com.example.techthing.exception.ErrorCode;
 import com.example.techthing.exception.MyException;
@@ -62,6 +60,20 @@ public class CategoryService {
         return categoryResponses;
     }
 
+    // get one
+    public CategoryResponse getOne(String id) {
+        Category category = this.categoryRepo.findById(id)
+                .orElseThrow(() -> new MyException(ErrorCode.CATEGORY_NOT_EXISTED));
+
+        CategoryResponse categoryResponse = CategoryResponse.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .description(category.getDescription())
+                .build();
+
+        return categoryResponse;
+    }
+
     // update
     public CategoryResponse update(UpdateCategoryRequest updateCategoryRequest) {
 
@@ -81,19 +93,11 @@ public class CategoryService {
     }
 
     // delete
-    public DeleteResponse delete(String id) {
-        this.categoryRepo.findById(id)
-                .orElseThrow(() -> new MyException(ErrorCode.CATEGORY_NOT_EXISTED));
-
-        this.categoryRepo.deleteById(id);
-        Optional<Category> category = this.categoryRepo.findById(id);
-        int deleted = 1;
-        if (category.isPresent()) {
-            deleted = 0;
+    public void delete(String id) {
+        if (!this.categoryRepo.existsById(id)) {
+            throw new MyException(ErrorCode.CATEGORY_NOT_EXISTED);
         }
 
-        return DeleteResponse.builder()
-                .deleted(deleted)
-                .build();
+        this.categoryRepo.deleteById(id);
     }
 }
