@@ -35,6 +35,7 @@ public class Cart {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     User user;
 
     @OneToMany(mappedBy = "cart")

@@ -37,5 +37,6 @@ public class User {
         Set<Invoice> invoices;
 
         @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+        @JsonManagedReference
         Cart cart;
 }
