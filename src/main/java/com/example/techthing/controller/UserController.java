@@ -26,10 +26,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
         UserService userService;
 
-        @GetMapping("/bio/{id}")
-        ApiResponse<User> getInfo(@PathVariable("id") String id) {
+        @GetMapping("/bio")
+        ApiResponse<User> getInfo() {
                 return ApiResponse.<User>builder()
-                                .result(userService.getUser(id))
+                                .result(userService.getUser())
                                 .build();
         }
 
@@ -56,11 +56,10 @@ public class UserController {
                                 .build();
         }
 
-        @PutMapping("/update/bio/{id}")
-        ApiResponse<UserResponse> updateBio(@PathVariable("id") String id,
-                        @RequestBody @Valid UpdateBioRequest updateBioRequest) {
+        @PutMapping("/update/bio")
+        ApiResponse<UserResponse> updateBio(@RequestBody @Valid UpdateBioRequest updateBioRequest) {
                 return ApiResponse.<UserResponse>builder()
-                                .result(userService.updateBio(id, updateBioRequest))
+                                .result(userService.updateBio(updateBioRequest))
                                 .build();
         }
 

@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Getter
 @Setter
@@ -19,6 +21,7 @@ public class Role {
     String description;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+    @JsonBackReference
     Set<User> users;
 
 }
