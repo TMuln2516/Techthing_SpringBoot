@@ -16,7 +16,6 @@ import com.example.techthing.dto.request.CreateCategoryRequest;
 import com.example.techthing.dto.request.UpdateCategoryRequest;
 import com.example.techthing.dto.response.ApiResponse;
 import com.example.techthing.dto.response.CategoryResponse;
-import com.example.techthing.dto.response.DeleteResponse;
 import com.example.techthing.service.CategoryService;
 
 @RestController
@@ -46,6 +45,12 @@ public class CategoryController {
     }
 
     // get one - public
+    @GetMapping("/{id}")
+    ApiResponse<CategoryResponse> getOne(@PathVariable("id") String id) {
+        return ApiResponse.<CategoryResponse>builder()
+                .result(this.categoryService.getOne(id))
+                .build();
+    }
 
     // update - admin
     @PreAuthorize("hasRole('ADMIN')")
@@ -59,9 +64,9 @@ public class CategoryController {
     // delete - admin
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/admin/{id}")
-    ApiResponse<DeleteResponse> deleteUser(@PathVariable("id") String id) {
-        return ApiResponse.<DeleteResponse>builder()
-                .result(this.categoryService.delete(id))
+    ApiResponse<Void> deleteUser(@PathVariable("id") String id) {
+        this.categoryService.delete(id);
+        return ApiResponse.<Void>builder()
                 .build();
     }
 
