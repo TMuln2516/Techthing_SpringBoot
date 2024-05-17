@@ -14,7 +14,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateProductRequest {
     String name;
-    int quantity;
     double price;
     String image;
     String description;
