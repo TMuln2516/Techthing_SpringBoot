@@ -30,7 +30,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
     String name;
-    int quantity;
     double price;
     String image;
     String description;
