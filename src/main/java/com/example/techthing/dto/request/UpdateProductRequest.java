@@ -1,6 +1,5 @@
-package com.example.techthing.dto.response;
+package com.example.techthing.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,15 +11,12 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductResponse {
+public class UpdateProductRequest {
     String id;
     String name;
     int quantity;
     double price;
     String image;
     String description;
-
-    CategoryResponse category;
 }
