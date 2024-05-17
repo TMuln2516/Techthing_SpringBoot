@@ -38,9 +38,9 @@ public class SecurityConfig {
     };
     final String[] PUBLIC_GET_ENDPOINTS = {
             // category
-            "categories",
+            "categories/**",
             // product
-            "products"
+            "products/**"
 
     };
 
