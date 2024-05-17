@@ -12,8 +12,9 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CartDetailResponse {
-    String cart_id;
+public class GetCartResponse {
     String product_id;
+    double price;
     int quantity;
+    double sub_total;
 }
