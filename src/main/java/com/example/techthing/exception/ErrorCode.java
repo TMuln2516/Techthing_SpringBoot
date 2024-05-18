@@ -1,11 +1,17 @@
 package com.example.techthing.exception;
 
 public enum ErrorCode {
+    // invoice
+    INVOICE_EXISTED(400, "Invoice existed"),
+    INVOICE_NOT_EXISTED(400, "Invoice not existed"),
+    // product
     NAME_PRODUCT_EXISTED(400, "Name of Product existed"),
     PRODUCT_NOT_EXISTED(400, "Product not existed"),
     PRODUCT_EXISTED(400, "Product existed"),
+    // category
     CATEGORY_EXISTED(400, "Category existed"),
     CATEGORY_NOT_EXISTED(400, "Category not existed"),
+    // user or auth
     USER_EXISTED(400, "User existed"),
     EMAIL_ALREADY_IN_USE(400, "Email is already in use"),
     USER_NOT_EXISTED(400, "User not existed"),
