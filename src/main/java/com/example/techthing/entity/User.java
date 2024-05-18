@@ -34,6 +34,7 @@ public class User {
         Set<Role> roles;
 
         @OneToMany(mappedBy = "user")
+        @JsonManagedReference
         Set<Invoice> invoices;
 
         @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)

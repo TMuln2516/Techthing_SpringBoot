@@ -1,7 +1,9 @@
 package com.example.techthing.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,11 +32,12 @@ public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
-    Date time_order;
+    Timestamp timeOrder;
     String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     User user;
 
     @OneToMany(mappedBy = "invoice")
