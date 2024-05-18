@@ -1,5 +1,6 @@
 package com.example.techthing.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.techthing.dto.request.CreateProductRequest;
 import com.example.techthing.dto.request.UpdateProductRequest;
@@ -30,9 +33,11 @@ public class ProductController {
     // create - admin
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/admin")
-    ApiResponse<ProductResponse> create(@RequestBody CreateProductRequest createProductRequest) {
+    public ApiResponse<ProductResponse> create(
+            @RequestPart("createProductRequest") CreateProductRequest createProductRequest,
+            @RequestPart("file") MultipartFile file) throws IOException {
         return ApiResponse.<ProductResponse>builder()
-                .result(this.productService.create(createProductRequest))
+                .result(this.productService.create(createProductRequest, file))
                 .build();
     }
 

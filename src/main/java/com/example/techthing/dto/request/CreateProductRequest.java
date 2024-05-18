@@ -15,7 +15,6 @@ import lombok.experimental.FieldDefaults;
 public class CreateProductRequest {
     String name;
     double price;
-    String image;
     String description;
     String categoryId;
 }

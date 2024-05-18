@@ -1,9 +1,11 @@
 package com.example.techthing.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.techthing.dto.request.CreateProductRequest;
 import com.example.techthing.dto.request.UpdateProductRequest;
@@ -26,9 +28,11 @@ import lombok.experimental.FieldDefaults;
 public class ProductService {
         ProductRepository productRepository;
         CategoryRepository categoryRepository;
+        ImageService imageService;
 
         // create
-        public ProductResponse create(CreateProductRequest createProductRequest) {
+        public ProductResponse create(CreateProductRequest createProductRequest, MultipartFile file)
+                        throws IOException {
 
                 Category category = categoryRepository.findById(createProductRequest.getCategoryId())
                                 .orElseThrow(() -> new MyException(ErrorCode.CATEGORY_NOT_EXISTED));
@@ -37,10 +41,12 @@ public class ProductService {
                         throw new MyException(ErrorCode.PRODUCT_EXISTED);
                 }
 
+                String urlImage = imageService.uploadImage(file);
+
                 Product product = Product.builder()
                                 .name(createProductRequest.getName())
                                 .price(createProductRequest.getPrice())
-                                .image(createProductRequest.getImage())
+                                .image(urlImage)
                                 .description(createProductRequest.getDescription())
                                 .category(category)
                                 .build();
@@ -51,7 +57,7 @@ public class ProductService {
                                 .id(product.getId())
                                 .name(product.getName())
                                 .price(product.getPrice())
-                                .image(product.getImage())
+                                .image(urlImage)
                                 .description(product.getDescription())
                                 .category(CategoryResponse.builder()
                                                 .id(product.getCategory().getId())
