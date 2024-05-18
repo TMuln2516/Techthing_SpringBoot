@@ -52,7 +52,6 @@ public class ApplicationInitConfig {
 
                 userRepository.save(admin);
             }
-
         };
     }
 }
