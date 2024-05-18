@@ -1,4 +1,4 @@
-package com.example.techthing.dto.request;
+package com.example.techthing.dto.response;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,14 +8,13 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CreateProductRequest {
-    String name;
+public class GetCartResponse {
+    String product_id;
     double price;
-    String image;
-    String description;
-    String categoryId;
+    int quantity;
+    double sub_total;
 }

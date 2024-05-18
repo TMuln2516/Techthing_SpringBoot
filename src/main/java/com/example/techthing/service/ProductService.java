@@ -39,7 +39,6 @@ public class ProductService {
 
                 Product product = Product.builder()
                                 .name(createProductRequest.getName())
-                                .quantity(createProductRequest.getQuantity())
                                 .price(createProductRequest.getPrice())
                                 .image(createProductRequest.getImage())
                                 .description(createProductRequest.getDescription())
@@ -51,7 +50,6 @@ public class ProductService {
                 return ProductResponse.builder()
                                 .id(product.getId())
                                 .name(product.getName())
-                                .quantity(product.getQuantity())
                                 .price(product.getPrice())
                                 .image(product.getImage())
                                 .description(product.getDescription())
@@ -72,7 +70,6 @@ public class ProductService {
                         ProductResponse temp = ProductResponse.builder()
                                         .id(product.getId())
                                         .name(product.getName())
-                                        .quantity(product.getQuantity())
                                         .price(product.getPrice())
                                         .image(product.getImage())
                                         .description(product.getDescription())
@@ -96,7 +93,6 @@ public class ProductService {
                 return ProductResponse.builder()
                                 .id(product.getId())
                                 .name(product.getName())
-                                .quantity(product.getQuantity())
                                 .price(product.getPrice())
                                 .image(product.getImage())
                                 .description(product.getDescription())
@@ -119,7 +115,6 @@ public class ProductService {
                 }
 
                 product.setName(updateProductRequest.getName());
-                product.setQuantity(updateProductRequest.getQuantity());
                 product.setPrice(updateProductRequest.getPrice());
                 product.setImage(updateProductRequest.getImage());
                 product.setDescription(updateProductRequest.getDescription());
@@ -128,7 +123,6 @@ public class ProductService {
                 return ProductResponse.builder()
                                 .id(product.getId())
                                 .name(product.getName())
-                                .quantity(product.getQuantity())
                                 .price(product.getPrice())
                                 .image(product.getImage())
                                 .description(product.getDescription())
@@ -148,5 +142,4 @@ public class ProductService {
 
                 this.productRepository.deleteById(id);
         }
-
 }

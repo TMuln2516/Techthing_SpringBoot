@@ -15,7 +15,6 @@ import lombok.experimental.FieldDefaults;
 public class UpdateProductRequest {
     String id;
     String name;
-    int quantity;
     double price;
     String image;
     String description;
