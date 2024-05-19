@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,6 +47,15 @@ public class ProductController {
     ApiResponse<List<ProductResponse>> getAll() {
         return ApiResponse.<List<ProductResponse>>builder()
                 .result(this.productService.getAll())
+                .build();
+    }
+
+    // search - user
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/search")
+    ApiResponse<List<ProductResponse>> search(@RequestParam("keyword") String keyword) {
+        return ApiResponse.<List<ProductResponse>>builder()
+                .result(this.productService.searchProduct(keyword))
                 .build();
     }
 
