@@ -32,6 +32,14 @@ public class ApplicationInitConfig {
                 roleRepository.save(role);
             }
 
+            if (roleRepository.findById("MANAGER").isEmpty()) {
+                Role role = Role.builder()
+                        .name("MANAGER")
+                        .description("Role Manager")
+                        .build();
+                roleRepository.save(role);
+            }
+
             if (roleRepository.findById("USER").isEmpty()) {
                 Role role = Role.builder()
                         .name("USER")
