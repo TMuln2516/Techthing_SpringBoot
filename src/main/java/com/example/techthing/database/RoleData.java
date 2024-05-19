@@ -36,7 +36,7 @@ public class RoleData {
                     .build();
             this.roleRepository.save(user);
 
-            System.out.println("created base role");
+            System.out.println("CREATED BASE ROLE DATA");
         }
     }
 }
