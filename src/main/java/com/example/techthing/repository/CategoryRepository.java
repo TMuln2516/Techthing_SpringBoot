@@ -9,4 +9,6 @@ import com.example.techthing.entity.Category;
 public interface CategoryRepository extends JpaRepository<Category, String> {
     boolean existsByName(String name);
 
+    Category findByName(String name);
+
 }
