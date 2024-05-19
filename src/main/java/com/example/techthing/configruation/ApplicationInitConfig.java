@@ -29,7 +29,6 @@ public class ApplicationInitConfig {
             this.userData.createBase();
             this.categoryData.createBase();
             this.productData.createBase();
-
         };
     }
 }
