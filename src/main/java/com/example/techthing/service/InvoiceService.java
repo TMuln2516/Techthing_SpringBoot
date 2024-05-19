@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.example.techthing.dto.request.ProductItemRequest;
 import com.example.techthing.dto.request.UpdateInvoiceRequest;
 import com.example.techthing.dto.response.InvoiceResponse;
 import com.example.techthing.dto.response.UserResponse;
@@ -21,14 +22,18 @@ import com.example.techthing.repository.UserRepository;
 public class InvoiceService {
         private final InvoiceRepository invoiceRepo;
         private final UserRepository userRepo;
+        private final InvoiceDetailService invoiceDetailService;
 
-        public InvoiceService(InvoiceRepository invoiceRepo, UserRepository userRepo) {
+        public InvoiceService(InvoiceRepository invoiceRepo, UserRepository userRepo,
+                        InvoiceDetailService invoiceDetailService) {
                 this.invoiceRepo = invoiceRepo;
                 this.userRepo = userRepo;
+                this.invoiceDetailService = invoiceDetailService;
         }
 
         // create
-        public InvoiceResponse create() {
+        public InvoiceResponse create(List<ProductItemRequest> productItemRequests) {
+                // create Invoice
                 String username = SecurityContextHolder.getContext().getAuthentication().getName();
                 User user = this.userRepo.findByUsername(username)
                                 .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
@@ -40,6 +45,11 @@ public class InvoiceService {
                                 .build();
 
                 this.invoiceRepo.save(invoice);
+
+                // add product item to invoice
+                for (ProductItemRequest productItem : productItemRequests) {
+                        this.invoiceDetailService.create(invoice, productItem);
+                }
 
                 return InvoiceResponse.builder()
                                 .id(invoice.getId())
