@@ -7,6 +7,7 @@ import com.example.techthing.dto.request.RefreshRequest;
 import com.example.techthing.dto.response.AuthenticationResponse;
 import com.example.techthing.dto.response.IntrospectResponse;
 import com.example.techthing.entity.InvalidatedToken;
+import com.example.techthing.entity.Role;
 import com.example.techthing.entity.User;
 import com.example.techthing.exception.ErrorCode;
 import com.example.techthing.exception.MyException;
@@ -21,6 +22,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +33,8 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.UUID;
 
@@ -163,8 +167,13 @@ public class AuthenticationService {
             isValid = false;
         }
 
+        SignedJWT signedJWT = verifyToken(request.getToken());
+        JWTClaimsSet claimsSet = signedJWT.getJWTClaimsSet();
+        String role = claimsSet.getStringClaim("scope");
+
         return IntrospectResponse.builder()
                 .valid(isValid)
+                .role(extractUserRole(role))
                 .build();
     }
 
@@ -177,5 +186,12 @@ public class AuthenticationService {
             });
         }
         return stringJoiner.toString();
+    }
+
+    private String extractUserRole(String role) {
+        if (role != null && role.startsWith("ROLE_")) {
+            return role.substring(5);
+        }
+        return role;
     }
 }
