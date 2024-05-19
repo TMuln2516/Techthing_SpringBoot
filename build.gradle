@@ -68,7 +68,6 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.cloudinary/cloudinary-http44
 	implementation ("com.cloudinary:cloudinary-http44:1.32.2")
 
-
 }
 
 tasks.named('test') {

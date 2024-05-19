@@ -2,7 +2,12 @@ package com.example.techthing.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -148,4 +153,31 @@ public class ProductService {
 
                 this.productRepository.deleteById(id);
         }
+
+        public List<ProductResponse> searchProduct(String keyword) {
+                // Tách từ khóa thành một mảng các từ
+                String[] keywords = keyword.toLowerCase().split("\\s+");
+
+                // Tìm kiếm sản phẩm
+                List<Product> products = productRepository.findAll();
+
+                // Lọc sản phẩm dựa trên các từ khóa
+                List<ProductResponse> filteredProducts = products.stream()
+                                .filter(product -> {
+                                        String productName = product.getName().toLowerCase();
+                                        return Arrays.stream(keywords)
+                                                        .allMatch(productName::contains);
+                                })
+                                .map(product -> ProductResponse.builder()
+                                                .id(product.getId())
+                                                .name(product.getName())
+                                                .price(product.getPrice())
+                                                .image(product.getImage())
+                                                .description(product.getDescription())
+                                                .build())
+                                .collect(Collectors.toList());
+
+                return filteredProducts;
+        }
+
 }
