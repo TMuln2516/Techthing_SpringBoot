@@ -36,36 +36,36 @@ public class InvoiceController {
                 .build();
     }
 
-    // get all - admin
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/admin")
+    // get all - admin or manager
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @GetMapping("/admin-manager")
     ApiResponse<List<InvoiceResponse>> getAll() {
         return ApiResponse.<List<InvoiceResponse>>builder()
                 .result(this.invoiceService.getAll())
                 .build();
     }
 
-    // get one - admin or user
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    @GetMapping("/admin-user/{id}")
+    // get one - admin or manage or user
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('USER')")
+    @GetMapping("/admin-manager-user/{id}")
     ApiResponse<InvoiceResponse> getOne(@PathVariable("id") String id) {
         return ApiResponse.<InvoiceResponse>builder()
                 .result(this.invoiceService.getOne(id))
                 .build();
     }
 
-    // update - admin
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/admin")
+    // update - admin or manager
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @PutMapping("/admin-manager")
     ApiResponse<InvoiceResponse> update(@RequestBody UpdateInvoiceRequest updateInvoiceRequest) {
         return ApiResponse.<InvoiceResponse>builder()
                 .result(this.invoiceService.update(updateInvoiceRequest))
                 .build();
     }
 
-    // delete - admin
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/admin/{id}")
+    // delete - admin or manage
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @DeleteMapping("/admin-manager/{id}")
     ApiResponse<Void> deleteUser(@PathVariable("id") String id) {
         this.invoiceService.delete(id);
         return ApiResponse.<Void>builder()
