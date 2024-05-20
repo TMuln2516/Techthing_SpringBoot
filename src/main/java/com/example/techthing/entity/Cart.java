@@ -3,6 +3,7 @@ package com.example.techthing.entity;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,5 +39,6 @@ public class Cart {
     User user;
 
     @OneToMany(mappedBy = "cart")
+    @JsonManagedReference
     Set<CartDetail> cartDetails;
 }
