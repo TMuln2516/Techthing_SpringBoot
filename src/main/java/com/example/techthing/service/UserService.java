@@ -187,6 +187,12 @@ public class UserService {
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public void deleteUser(String id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
+
+        Cart cart = user.getCart();
+        cartRepository.deleteById(cart.getId());
+
         userRepository.deleteById(id);
     }
 }

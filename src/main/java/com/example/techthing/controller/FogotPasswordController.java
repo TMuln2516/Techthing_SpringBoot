@@ -12,6 +12,8 @@ import com.example.techthing.dto.request.VerifyOtpRequest;
 import com.example.techthing.dto.response.ApiResponse;
 import com.example.techthing.dto.response.ChangePasswordResponse;
 import com.example.techthing.service.ForgotPasswordService;
+
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class FogotPasswordController {
     ForgotPasswordService forgotPasswordService;
 
     @PostMapping("/verifyEmail")
-    public ApiResponse<String> verifyEmail(@RequestBody @Valid MailRequest mailRequest) {
+    public ApiResponse<String> verifyEmail(@RequestBody @Valid MailRequest mailRequest) throws MessagingException {
         forgotPasswordService.sendOTP(mailRequest.getMail());
         return ApiResponse.<String>builder()
                 .result("Send OTP success")
