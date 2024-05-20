@@ -34,6 +34,7 @@ public class Invoice {
     String id;
     Timestamp timeOrder;
     String status;
+    String shippingInfor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
