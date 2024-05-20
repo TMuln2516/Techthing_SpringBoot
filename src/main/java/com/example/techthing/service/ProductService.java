@@ -1,6 +1,7 @@
 package com.example.techthing.service;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +32,7 @@ public class ProductService {
         ProductRepository productRepository;
         CategoryRepository categoryRepository;
         ImageService imageService;
+        DecimalFormat formatter = new DecimalFormat("#,###");
 
         // create
         public ProductResponse create(CreateProductRequest createProductRequest, MultipartFile file)
