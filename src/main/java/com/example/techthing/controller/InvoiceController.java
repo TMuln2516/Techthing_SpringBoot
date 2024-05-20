@@ -37,7 +37,7 @@ public class InvoiceController {
     }
 
     // get all - admin
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping("/admin")
     ApiResponse<List<InvoiceResponse>> getAll() {
         return ApiResponse.<List<InvoiceResponse>>builder()
@@ -55,7 +55,7 @@ public class InvoiceController {
     }
 
     // update - admin
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PutMapping("/admin")
     ApiResponse<InvoiceResponse> update(@RequestBody UpdateInvoiceRequest updateInvoiceRequest) {
         return ApiResponse.<InvoiceResponse>builder()
@@ -64,7 +64,7 @@ public class InvoiceController {
     }
 
     // delete - admin
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @DeleteMapping("/admin/{id}")
     ApiResponse<Void> deleteUser(@PathVariable("id") String id) {
         this.invoiceService.delete(id);
