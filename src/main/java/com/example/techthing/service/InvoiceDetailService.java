@@ -2,7 +2,7 @@ package com.example.techthing.service;
 
 import org.springframework.stereotype.Service;
 
-import com.example.techthing.dto.request.ProductItemRequest;
+import com.example.techthing.dto.request.ProductItem;
 import com.example.techthing.entity.Invoice;
 import com.example.techthing.entity.InvoiceDetail;
 import com.example.techthing.entity.Product;
@@ -23,7 +23,7 @@ public class InvoiceDetailService {
         ProductRepository productRepo;
 
         // create
-        public void create(Invoice invoice, ProductItemRequest productItemRequest) {
+        public void create(Invoice invoice, ProductItem productItemRequest) {
                 // create Invoice
                 Product product = this.productRepo.findById(productItemRequest.getProductId())
                                 .orElseThrow(() -> new MyException(ErrorCode.PRODUCT_NOT_EXISTED));

@@ -69,17 +69,17 @@ public class CartDetailData {
                         CartDetail huyItem1 = CartDetail.builder()
                                         .cart(huyCart)
                                         .product(phoneSamsung)
-                                        .quantity(8)
+                                        .quantity(9)
                                         .build();
                         CartDetail huyItem2 = CartDetail.builder()
                                         .cart(huyCart)
                                         .product(lapLenovo)
-                                        .quantity(2)
+                                        .quantity(1)
                                         .build();
                         CartDetail hongItem1 = CartDetail.builder()
                                         .cart(hongCart)
                                         .product(phoneIPhone)
-                                        .quantity(8)
+                                        .quantity(10)
                                         .build();
                         CartDetail hongItem2 = CartDetail.builder()
                                         .cart(hongCart)
@@ -89,7 +89,7 @@ public class CartDetailData {
                         CartDetail hongItem3 = CartDetail.builder()
                                         .cart(hongCart)
                                         .product(watchApple)
-                                        .quantity(10)
+                                        .quantity(11)
                                         .build();
                         CartDetail hongItem4 = CartDetail.builder()
                                         .cart(hongCart)
@@ -104,17 +104,17 @@ public class CartDetailData {
                         CartDetail lucItem2 = CartDetail.builder()
                                         .cart(lucCart)
                                         .product(soundJBL)
-                                        .quantity(5)
+                                        .quantity(8)
                                         .build();
                         CartDetail lucItem3 = CartDetail.builder()
                                         .cart(lucCart)
                                         .product(accessoryLogitech)
-                                        .quantity(4)
+                                        .quantity(3)
                                         .build();
                         CartDetail nhanItem1 = CartDetail.builder()
                                         .cart(nhanCart)
                                         .product(phoneIPhone)
-                                        .quantity(3)
+                                        .quantity(2)
                                         .build();
                         CartDetail nhanItem2 = CartDetail.builder()
                                         .cart(nhanCart)
@@ -124,7 +124,7 @@ public class CartDetailData {
                         CartDetail nhanItem3 = CartDetail.builder()
                                         .cart(nhanCart)
                                         .product(tvSony)
-                                        .quantity(6)
+                                        .quantity(7)
                                         .build();
 
                         // save cart details

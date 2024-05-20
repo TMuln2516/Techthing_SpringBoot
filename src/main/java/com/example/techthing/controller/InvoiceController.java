@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.techthing.dto.request.ProductItemRequest;
+import com.example.techthing.dto.request.CreateInvoiceRequest;
 import com.example.techthing.dto.request.UpdateInvoiceRequest;
 import com.example.techthing.dto.response.ApiResponse;
 import com.example.techthing.dto.response.InvoiceResponse;
@@ -30,9 +30,9 @@ public class InvoiceController {
     // create - user
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/user")
-    ApiResponse<InvoiceResponse> create(@RequestBody List<ProductItemRequest> productItemRequests) {
+    ApiResponse<InvoiceResponse> create(@RequestBody CreateInvoiceRequest createInvoiceRequest) {
         return ApiResponse.<InvoiceResponse>builder()
-                .result(this.invoiceService.create(productItemRequests))
+                .result(this.invoiceService.create(createInvoiceRequest))
                 .build();
     }
 
