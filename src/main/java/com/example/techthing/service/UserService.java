@@ -84,7 +84,7 @@ public class UserService {
         return userResponse;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public List<UserResponse> getAll() {
         List<User> users = userRepository.findAll();
         List<UserResponse> userResponses = new ArrayList<>();
@@ -185,7 +185,7 @@ public class UserService {
                 .build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public void deleteUser(String id) {
         userRepository.deleteById(id);
     }
