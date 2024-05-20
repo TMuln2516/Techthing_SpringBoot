@@ -14,6 +14,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class GetCartResponse {
     String product_id;
+    String product_name;
+    String image;
     double price;
     int quantity;
     double sub_total;
