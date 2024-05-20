@@ -8,14 +8,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.techthing.dto.request.CreateInvoiceRequest;
-import com.example.techthing.dto.request.ProductItem;
 import com.example.techthing.dto.request.UpdateInvoiceRequest;
 import com.example.techthing.dto.response.InvoiceResponse;
 import com.example.techthing.dto.response.UserResponse;
+import com.example.techthing.entity.CartDetail;
 import com.example.techthing.entity.Invoice;
 import com.example.techthing.entity.User;
 import com.example.techthing.exception.ErrorCode;
 import com.example.techthing.exception.MyException;
+import com.example.techthing.repository.CartDetailRepository;
 import com.example.techthing.repository.InvoiceRepository;
 import com.example.techthing.repository.UserRepository;
 
@@ -23,15 +24,14 @@ import com.example.techthing.repository.UserRepository;
 public class InvoiceService {
         private final InvoiceRepository invoiceRepo;
         private final UserRepository userRepo;
-        private final CartDetailService cartDetailService;
+        private final CartDetailRepository cartDetailRepo;
         private final InvoiceDetailService invoiceDetailService;
 
         public InvoiceService(InvoiceRepository invoiceRepo, UserRepository userRepo,
-                        InvoiceDetailService invoiceDetailService,
-                        CartDetailService cartDetailService) {
+                        InvoiceDetailService invoiceDetailService, CartDetailRepository cartDetailRepo) {
                 this.invoiceRepo = invoiceRepo;
                 this.userRepo = userRepo;
-                this.cartDetailService = cartDetailService;
+                this.cartDetailRepo = cartDetailRepo;
                 this.invoiceDetailService = invoiceDetailService;
 
         }
@@ -46,24 +46,30 @@ public class InvoiceService {
                 // this.cartRepo.findByUser(user)
                 // .orElseThrow(() -> new MyException(ErrorCode.CART_NOT_EXISTED));
 
+                // create invoice
                 Invoice invoice = Invoice.builder()
                                 .user(user)
-                                .shippingInfor(createInvoiceRequest.getShippingInfor())
+                                .shippingInfo(createInvoiceRequest.getShippingInfo())
                                 .timeOrder(new Timestamp(System.currentTimeMillis()))
                                 .status("PENDING")
                                 .build();
 
                 this.invoiceRepo.save(invoice);
 
-                // add product item to invoice
-                List<ProductItem> productItems = createInvoiceRequest.getProductItems();
-                for (ProductItem productItem : productItems) {
+                // create invoice details
+                for (String productItemId : createInvoiceRequest.getCartDetailIds()) {
+                        // find product item object
+                        CartDetail productItem = this.cartDetailRepo.findById(productItemId)
+                                        .orElseThrow(() -> new MyException(ErrorCode.PRODUCT_ITEM_NOT_EXISTED));
+                        // add to invoice
                         this.invoiceDetailService.create(invoice, productItem);
-                        // this.cartDetailService.decreaseQuantity(productItem.getProductId());
+                        // remove from cart
+                        this.cartDetailRepo.deleteById(productItemId);
                 }
 
                 return InvoiceResponse.builder()
                                 .id(invoice.getId())
+                                .shippingInfo(invoice.getShippingInfo())
                                 .timeOrder(invoice.getTimeOrder())
                                 .status(invoice.getStatus())
                                 .user(UserResponse.builder()

@@ -16,6 +16,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateInvoiceRequest {
 
-    String shippingInfor;
-    List<ProductItem> productItems;
+    String shippingInfo;
+    List<String> cartDetailIds;
 }
