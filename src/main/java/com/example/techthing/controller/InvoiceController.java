@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.techthing.dto.request.ProductItemRequest;
+import com.example.techthing.dto.request.CreateInvoiceRequest;
 import com.example.techthing.dto.request.UpdateInvoiceRequest;
 import com.example.techthing.dto.response.ApiResponse;
 import com.example.techthing.dto.response.InvoiceResponse;
@@ -30,42 +30,42 @@ public class InvoiceController {
     // create - user
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/user")
-    ApiResponse<InvoiceResponse> create(@RequestBody List<ProductItemRequest> productItemRequests) {
+    ApiResponse<InvoiceResponse> create(@RequestBody CreateInvoiceRequest createInvoiceRequest) {
         return ApiResponse.<InvoiceResponse>builder()
-                .result(this.invoiceService.create(productItemRequests))
+                .result(this.invoiceService.create(createInvoiceRequest))
                 .build();
     }
 
-    // get all - admin
+    // get all - admin or manager
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @GetMapping("/admin")
+    @GetMapping("/admin-manager")
     ApiResponse<List<InvoiceResponse>> getAll() {
         return ApiResponse.<List<InvoiceResponse>>builder()
                 .result(this.invoiceService.getAll())
                 .build();
     }
 
-    // get one - admin or user
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    @GetMapping("/admin-user/{id}")
+    // get one - admin or manage or user
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('USER')")
+    @GetMapping("/admin-manager-user/{id}")
     ApiResponse<InvoiceResponse> getOne(@PathVariable("id") String id) {
         return ApiResponse.<InvoiceResponse>builder()
                 .result(this.invoiceService.getOne(id))
                 .build();
     }
 
-    // update - admin
+    // update - admin or manager
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @PutMapping("/admin")
+    @PutMapping("/admin-manager")
     ApiResponse<InvoiceResponse> update(@RequestBody UpdateInvoiceRequest updateInvoiceRequest) {
         return ApiResponse.<InvoiceResponse>builder()
                 .result(this.invoiceService.update(updateInvoiceRequest))
                 .build();
     }
 
-    // delete - admin
+    // delete - admin or manage
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/admin-manager/{id}")
     ApiResponse<Void> deleteUser(@PathVariable("id") String id) {
         this.invoiceService.delete(id);
         return ApiResponse.<Void>builder()

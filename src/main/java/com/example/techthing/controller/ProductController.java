@@ -31,9 +31,9 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // create - admin
+    // create - admin or manage
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @PostMapping("/admin")
+    @PostMapping("/admin-manager")
     public ApiResponse<ProductResponse> create(
             @RequestPart("createProductRequest") CreateProductRequest createProductRequest,
             @RequestPart("file") MultipartFile file) throws IOException {
@@ -67,18 +67,18 @@ public class ProductController {
                 .build();
     }
 
-    // update - admin
+    // update - admin or manager
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @PutMapping("/admin")
+    @PutMapping("/admin-manager")
     ApiResponse<ProductResponse> update(@RequestBody UpdateProductRequest updateProductRequest) {
         return ApiResponse.<ProductResponse>builder()
                 .result(this.productService.update(updateProductRequest))
                 .build();
     }
 
-    // delete - admin
+    // delete - admin or manager
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/admin-manager/{id}")
     ApiResponse<Void> deleteUser(@PathVariable("id") String id) {
         this.productService.delete(id);
         return ApiResponse.<Void>builder()
