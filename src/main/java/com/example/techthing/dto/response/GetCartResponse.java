@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class GetCartResponse {
+    String cartDetail_id;
     String product_id;
     String product_name;
     String image;

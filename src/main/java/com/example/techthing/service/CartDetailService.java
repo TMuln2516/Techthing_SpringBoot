@@ -90,6 +90,7 @@ public class CartDetailService {
                         for (CartDetail detail : cartDetail) {
                                 // Map CartDetail tp GetCartResponse
                                 GetCartResponse product = GetCartResponse.builder()
+                                                .cartDetail_id(detail.getId())
                                                 .product_id(detail.getProduct().getId())
                                                 .product_name(detail.getProduct().getName())
                                                 .image(detail.getProduct().getImage())
