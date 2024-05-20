@@ -7,7 +7,8 @@ import java.util.List;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.example.techthing.dto.request.ProductItemRequest;
+import com.example.techthing.dto.request.CreateInvoiceRequest;
+import com.example.techthing.dto.request.ProductItem;
 import com.example.techthing.dto.request.UpdateInvoiceRequest;
 import com.example.techthing.dto.response.InvoiceResponse;
 import com.example.techthing.dto.response.UserResponse;
@@ -36,7 +37,7 @@ public class InvoiceService {
         }
 
         // create
-        public InvoiceResponse create(List<ProductItemRequest> productItemRequests) {
+        public InvoiceResponse create(CreateInvoiceRequest createInvoiceRequest) {
                 // create Invoice
                 String username = SecurityContextHolder.getContext().getAuthentication().getName();
                 User user = this.userRepo.findByUsername(username)
@@ -47,6 +48,7 @@ public class InvoiceService {
 
                 Invoice invoice = Invoice.builder()
                                 .user(user)
+                                .shippingInfor(createInvoiceRequest.getShippingInfor())
                                 .timeOrder(new Timestamp(System.currentTimeMillis()))
                                 .status("PENDING")
                                 .build();
@@ -54,9 +56,10 @@ public class InvoiceService {
                 this.invoiceRepo.save(invoice);
 
                 // add product item to invoice
-                for (ProductItemRequest productItem : productItemRequests) {
+                List<ProductItem> productItems = createInvoiceRequest.getProductItems();
+                for (ProductItem productItem : productItems) {
                         this.invoiceDetailService.create(invoice, productItem);
-                        this.cartDetailService.decreaseQuantity(productItem.getProductId());
+                        // this.cartDetailService.decreaseQuantity(productItem.getProductId());
                 }
 
                 return InvoiceResponse.builder()
