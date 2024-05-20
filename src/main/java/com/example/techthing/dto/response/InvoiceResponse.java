@@ -19,6 +19,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class InvoiceResponse {
     String id;
+    String shippingInfo;
     Timestamp timeOrder;
     String status;
     UserResponse user;
