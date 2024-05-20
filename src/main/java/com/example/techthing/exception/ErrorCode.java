@@ -1,6 +1,10 @@
 package com.example.techthing.exception;
 
 public enum ErrorCode {
+    // product item
+    PRODUCT_ITEM_NOT_EXISTED(400, "Product item not existed"),
+    // cart
+    CART_NOT_EXISTED(400, "Cart not existed"),
     // invoice
     INVOICE_EXISTED(400, "Invoice existed"),
     INVOICE_NOT_EXISTED(400, "Invoice not existed"),

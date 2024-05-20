@@ -22,13 +22,17 @@ import com.example.techthing.repository.UserRepository;
 public class InvoiceService {
         private final InvoiceRepository invoiceRepo;
         private final UserRepository userRepo;
+        private final CartDetailService cartDetailService;
         private final InvoiceDetailService invoiceDetailService;
 
         public InvoiceService(InvoiceRepository invoiceRepo, UserRepository userRepo,
-                        InvoiceDetailService invoiceDetailService) {
+                        InvoiceDetailService invoiceDetailService,
+                        CartDetailService cartDetailService) {
                 this.invoiceRepo = invoiceRepo;
                 this.userRepo = userRepo;
+                this.cartDetailService = cartDetailService;
                 this.invoiceDetailService = invoiceDetailService;
+
         }
 
         // create
@@ -37,6 +41,9 @@ public class InvoiceService {
                 String username = SecurityContextHolder.getContext().getAuthentication().getName();
                 User user = this.userRepo.findByUsername(username)
                                 .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_EXISTED));
+                // Cart cart = user.getCart();
+                // this.cartRepo.findByUser(user)
+                // .orElseThrow(() -> new MyException(ErrorCode.CART_NOT_EXISTED));
 
                 Invoice invoice = Invoice.builder()
                                 .user(user)
@@ -49,6 +56,7 @@ public class InvoiceService {
                 // add product item to invoice
                 for (ProductItemRequest productItem : productItemRequests) {
                         this.invoiceDetailService.create(invoice, productItem);
+                        this.cartDetailService.decreaseQuantity(productItem.getProductId());
                 }
 
                 return InvoiceResponse.builder()

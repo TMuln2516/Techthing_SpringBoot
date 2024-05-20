@@ -4,6 +4,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.techthing.database.CartData;
+import com.example.techthing.database.CartDetailData;
 import com.example.techthing.database.CategoryData;
 import com.example.techthing.database.ProductData;
 import com.example.techthing.database.RoleData;
@@ -21,6 +23,8 @@ public class ApplicationInitConfig {
     UserData userData;
     CategoryData categoryData;
     ProductData productData;
+    CartData cartData;
+    CartDetailData cartDetailData;
 
     @Bean
     ApplicationRunner applicationRunner() {
@@ -29,6 +33,8 @@ public class ApplicationInitConfig {
             this.userData.createBase();
             this.categoryData.createBase();
             this.productData.createBase();
+            this.cartData.createBase();
+            this.cartDetailData.createBase();
         };
     }
 }
